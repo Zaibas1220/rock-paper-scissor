@@ -1,79 +1,87 @@
-function computerPlay (){
+const rock = document.querySelector('#rock');
+const paper = document.querySelector('#paper');
+const scissor = document.querySelector('#scissor');
+const result = document.querySelector('#results');
+const winner = document.querySelector('#winner');
+
+let player = 0;
+let computer = 0;
+
+rock.addEventListener('click', () => {
+    playRound(rock.id);
+})
+
+paper.addEventListener('click', () => {
+    playRound(paper.id);
+})
+
+scissor.addEventListener('click', () => {
+    playRound(scissor.id);
+})
+
+
+
+function computerPlay() {
     let computerValue = Math.floor(Math.random() * 3);
     return computerValue;
 }
 
-function playerPlay (){
-    let playerValue = prompt ("Write one: Rock - Paper - Scissor");
-    playerValue = playerValue.toLowerCase();
-    switch(playerValue){
+function playerPlay(selection) {
+    switch (selection) {
         case ("rock"):
+            console.log("Player selected rock");
             return 0;
         case ("paper"):
+            console.log("Player selected paper");
             return 1;
         case ("scissor"):
+            console.log("Player selected scissor");
             return 2;
-        default:
-            alert("Inserted value was not one of: Rock - Paper - Scissor.");
-            playerPlay();
     }
 }
 
-function playRound (){
+function playRound(selection) {
     let computerSelection = computerPlay();
-    let playerSelection = playerPlay();
+    let playerSelection = playerPlay(selection);
 
-    if(playerSelection === 0 && computerSelection === 0){
+    if (playerSelection === 0 && computerSelection === 0) {
         console.log("Draw");
-        return 0;
     } else if (playerSelection === 1 && computerSelection === 1) {
         console.log("Draw");
-        return 0;
     } else if (playerSelection === 2 && computerSelection === 2) {
         console.log("Draw");
-        return 0;
     } else if (playerSelection === 0 && computerSelection === 1) {
         console.log("Computer win!");
-        return 2;
+        computer++;
     } else if (playerSelection === 0 && computerSelection === 2) {
         console.log("Player win!");
-        return 1;
+        player++;
     } else if (playerSelection === 1 && computerSelection === 0) {
         console.log("Player win!");
-        return 1;
+        player++;
     } else if (playerSelection === 1 && computerSelection === 2) {
         console.log("Computer win!");
-        return 2;
+        computer++;
     } else if (playerSelection === 2 && computerSelection === 0) {
         console.log("Computer win!");
-        return 2;
+        computer++;
     } else if (playerSelection === 2 && computerSelection === 1) {
         console.log("Player win!")
-        return 1;
+        player++;
     }
-}
 
-function game(){
-    let playerWins = 0;
-    let computerWins = 0;
-    for(let round = 1; round <= 5; round++){
-        let result = playRound();
-        if(result === 1){
-            playerWins++;
-        } else if (result === 2){
-            computerWins++;
+    result.textContent = player + " - " + computer;
+
+    if(player === 5 || computer === 5){
+        if(player === 5){
+            winner.textContent = "Player win the game!";
+        } else if(computer === 5){
+            winner.textContent = "Computer win the game!";
         }
 
-        console.log( "Player: " + playerWins + " - " + "Computer: " + computerWins);
-    }
-
-    if(playerWins > computerWins){
-        alert("Player wins " + playerWins + " - " + computerWins);
-    } else if (playerWins < computerWins){
-        alert("Computer wins " + playerWins + " - " + computerWins);
-    } else {
-        alert("Draw " + playerWins + " - " + computerWins)
+        rock.remove();
+        paper.remove();
+        scissor.remove();
     }
 }
 
-game();
